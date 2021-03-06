@@ -64,4 +64,33 @@ public final void acquire(int arg) {
 }
 ```
 
+------
+
+**共享锁**
+
+与获取独占锁不同，关键在于，共享锁可以被多个线程持有。
+
+如果需要使用AQS实现共享锁，在实现tryAcquireShared()方法时：
+
+- 返回负数，表示获取失败
+
+- 返回0，表示获取成功，但是后继争用线程不会成功
+
+- 返回正数，表示获取成功，表示后继争用线程也可能成功
+
+源码解读：
+
+```java
+    /**
+     * 获取共享模式的锁。
+     * 先调用一次tryAcquireShared方法尝试获取锁，如果获取锁成功则返回。如果不成功则
+     * 循序尝试再次获取锁，或者被阻塞。
+     */
+    public final void acquireShared(int arg) {
+      	// 先调用一次tryAcquireShared方法尝试获取锁，如果获取锁成功则返回。
+        if (tryAcquireShared(arg) < 0)
+          	// 循序尝试再次获取锁，或者被阻塞。
+            doAcquireShared(arg);
+    }
+```
 
