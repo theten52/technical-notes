@@ -6,6 +6,18 @@
 
 ------
 
+##### 线程安全问题的本质：
+
+> 数据的安全性
+
+多个线程访问共同的资源时，在某一个线程对资源进行写操作的中途，其它线程对该资源进行读、写，导致出现了数据的错误。
+
+##### 锁机制的本质：
+
+> 对资源进行访问限制
+
+在多线程访问的情况下保证数据的准确性。
+
 **独占锁：**
 
 实现方法：
@@ -118,5 +130,34 @@ public final void acquire(int arg) {
 - 协同式线程调度
 - 抢占式线程调度（java线程的实现方式）
 
+源码分析：
+
+```java
+//根据系统计时器和调度程序的精度和准确性，使当前正在执行的线程进入休眠状态（暂时停止执行）达指定的毫秒数。 该线程不会失去任何监视器的所有权。
+//其他线程可以中断此线程（使用InterruptedException异常）。
+//调用此方法时调用线程的状态为：TIMED_WAITING
+//public static native void sleep(long millis) throws InterruptedException;
+//public static void sleep(long millis, int nanos) throws InterruptedException {
+java.lang.Thread#sleep(long)
+java.lang.Thread#sleep(long, int)
+
+  //最多用m毫秒等待该线程终止。超时为0表示永远等待。
+	//此方法使用当this.isAlive时循环调用this.wait的方式实现。当线程终止时，将调用this.notifyAll方法。建议应用程序不要在Thread实例上使用Object对象上的wait，notify或notifyAll方法。
+	//public final synchronized void join(long millis) throws InterruptedException {
+	java.lang.Thread#join(long)
+  java.lang.Thread#join(long, int)
+  java.lang.Thread#join()
+```
+
+
+
+------
+
+注意：java中的线程状态只有6种。操作系统中Runnable会被分为Runnable和Running。状态流转如下图：
+
 ![Java线程状态](Java线程状态.jpeg)
+
+![线程状态转换图](线程状态转换图.jpeg)
+
+![线程池的状态](线程池的状态.jpeg)
 
