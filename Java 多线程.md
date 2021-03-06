@@ -2,7 +2,7 @@
 
 ## AbstractQueuedSynchronizer详解
 
-[Java AQS源码解读|掘金]: https://juejin.cn/post/6844904035862986765
+[Java AQS源码解读|掘金](https://juejin.cn/post/6844904035862986765)
 
 ------
 
@@ -104,7 +104,7 @@ public final void acquire(int arg) {
 
 **线程**
 
-[线程|掘金]: https://juejin.cn/post/6844904166565871630
+[线程|掘金](https://juejin.cn/post/6844904166565871630)
 
 线程的实现方式：
 
